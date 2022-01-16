@@ -1,8 +1,8 @@
 import React, { Component } from "react";
 import withLayout from "../../../components/withLayout";
-import { getPostBySlug } from "../../../utils/mockAPI";
 import { Link } from "react-router-dom";
-
+import api from "@utils/api";
+import { RESOURCE_URI } from "@utils/constants";
 class PostDetail extends Component {
   constructor(props) {
     super(props);
@@ -14,10 +14,10 @@ class PostDetail extends Component {
   }
 
   componentDidMount() {
-    getPostBySlug(this.props.match.params.postSlug)
-      .then((post) => {
+    api.get(`${RESOURCE_URI.POST}/${this.props.match.params.postSlug}`)
+      .then((res) => {
         this.setState({
-          post,
+          post: res.data,
           isLoading: false
         })
       })
@@ -40,7 +40,7 @@ class PostDetail extends Component {
         <p>Posted on <span className="font-weight-bold">{new Date(post.createdAt).toDateString()}</span></p>
         <hr />
         {/* Preview Image */}
-        <img className="img-fluid rounded" src="http://placehold.it/900x300" alt="" />
+        <img className="rounded img-fluid" src="http://placehold.it/900x300" alt="" />
         <hr />
         {/* Post Content */}
         <p className="lead">

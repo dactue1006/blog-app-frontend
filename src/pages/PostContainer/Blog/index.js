@@ -1,6 +1,5 @@
 import React, { Component } from "react";
 import withLayout from "@components/withLayout";
-import { deletePostById } from "../../../utils/mockAPI";
 import PostItem from "./components/PostItem";
 import SideBar from "./components/SideBar";
 import { Link } from "react-router-dom";
@@ -35,8 +34,9 @@ class Blog extends Component {
   }
 
   deletePost = (postId) => {
-    deletePostById(postId)
-      .then((result) => {
+    api
+      .delete(`${RESOURCE_URI.POST}/${postId}`)
+      .then(() => {
         this.setState({
           posts: this.state.posts.filter((post) => post.id !== postId),
         });
